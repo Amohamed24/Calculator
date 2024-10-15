@@ -4,6 +4,10 @@
 const container = document.querySelector("#container");
 const display = document.querySelector("#display");
 
+let firstNumber = 12
+let secondNumber = 7
+let operator = '+'
+
 
 let input = ''; // keeps tracks of numbers pressed
 
@@ -66,7 +70,7 @@ dividebtn.addEventListener('click', () => {
 function addNumbers() {
     let num1 = parseInt(prompt("Please enter a number less than 100: "))
     let num2 = parseInt(prompt("Please enter a number less than 100: "))
-    if (num1 & num2 & num1<100 & num2 <100) {
+    if (num1 & num2 && num1<100 & num2 <100) {
         sum = num1 + num2
         return alert(`${num1} added by ${num2} equals ${sum}`);
     } else {
@@ -79,7 +83,7 @@ function addNumbers() {
 function minusNumbers() {
     let num1 = parseInt(prompt("Please enter a number less than 100: "))
     let num2 = parseInt(prompt("Please enter a number less than 100: "))
-    if (num1 & num2 & num1<100 & num2 <100) {
+    if (num1 & num2 && num1<100 & num2 <100) {
         diff = num1 - num2
         return alert(`${num1} subtracted by ${num2} equals ${diff}`);
     } else {
@@ -92,7 +96,7 @@ function minusNumbers() {
 function timesNumbers() {
     let num1 = parseInt(prompt("Please enter a number less than 100: "))
     let num2 = parseInt(prompt("Please enter a number less than 100: "))
-    if (num1 & num2 & num1<100 & num2 <100) {
+    if (num1 & num2 && num1<100 & num2 <100) {
         multi = num1 * num2
         return alert(`${num1} multiplied by ${num2} equals ${multi}`);
     } else {
@@ -105,7 +109,7 @@ function timesNumbers() {
 function divideNumbers() {
     let num1 = parseInt(prompt("Please enter a number less than 100: "))
     let num2 = parseInt(prompt("Please enter a number less than 100: "))
-    if (num1 & num2 & num1<100 & num2 <100) {
+    if (num1 & num2 && num1<100 & num2 <100) {
         split = num1 / num2
         return alert(`${num1} divided by ${num2} equals ${split}`);
     } else {
@@ -116,15 +120,23 @@ function divideNumbers() {
 
 
 
-const equalbtn = document.querySelector("=")
+const equalbtn = document.querySelector("#equal")
 equalbtn.addEventListener('click', () => {
     operate()
+    display.innerHTML = `${answer}`
 })
 
 
 function operate() {
     // takes an operator and 2 numbers
+    if (firstNumber & secondNumber & operator) {
+        answer = `${firstNumber} ${operator} ${secondNumber}`
+        alert(`You chose ${answer}`)
+
+    }
 }
+
+
 
 
 
