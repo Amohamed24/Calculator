@@ -4,29 +4,64 @@
 const container = document.querySelector("#container");
 const display = document.querySelector("#display");
 
-let firstNumber = 12
-let secondNumber = 7
-let operator = '+'
+
+let num1 = ''
+let num2 = ''
+let isFirstNumber = true // checks to see which number user is entering
+let operator = ''
+let answer = ''
+
+const operatorsMap = {
+    '+': (a, b) => a + b,
+    '-': (a, b) => a - b,
+    '*': (a, b) => a * b,
+    '/': (a, b) => a / b
+};
 
 
-let input = ''; // keeps tracks of numbers pressed
+const button = document.querySelectorAll(".number"); // all the numbers
+const operators = document.querySelectorAll(".operator"); // all the operators
 
-const button = document.querySelectorAll("button");
 // add click event listener to update display
 button.forEach((button) => {
     button.addEventListener('click', () => {
-        if (input.length < 9) {
-            input += button.id
-            updateDisplay(input)
+        if (isFirstNumber) {
+            if (num1.length < 12) {
+                num1 += button.id
+                updateDisplay()
+            }
+        } else {
+            if (num2.length < 12) {
+                num2 += button.id
+                updateDisplay()
+            } 
         }
     })
 })
 
-function updateDisplay(value) {
-    display.innerHTML = value
+
+function switchToSecondNum() {
+    isFirstNumber = false;
+    updateDisplay() 
 }
 
 
+function updateDisplay() {
+    if (isFirstNumber) {
+        display.innerHTML = `${num1}`
+    }
+    else {
+        display.innerHTML = `${num2}`
+    }
+}
+
+// once an operator clicked, stores previous value as num1 and starts storing num2
+operators.forEach((op) => {
+    op.addEventListener('click', () => {
+        operator = op.id;  
+        switchToSecondNum();  
+    });
+});
 
 
 const clearbtn = document.querySelector("#ce");
@@ -34,109 +69,36 @@ clearbtn.addEventListener('click', () => {
     clearDisplay()
 })
 
-// function clears display
+// function clears display and resets everything
 function clearDisplay() {
     display.innerHTML = ''
-    input =  ''
+    num1 =  ''
+    num2 =  ''
+    isFirstNumber = true
+    operator = ''
 }
 
-
-
-const plusbtn = document.querySelector("#plus");
-plusbtn.addEventListener('click', () => {
-    addNumbers()
-    display.innerHTML = `${sum}`
-})
-
-const minusbtn = document.querySelector("#minus");
-minusbtn.addEventListener('click', () => {
-    minusNumbers()
-    display.innerHTML = `${diff}`
-})
-
-const timesbtn = document.querySelector("#times");
-timesbtn.addEventListener('click', () => {
-    timesNumbers()
-    display.innerHTML = `${multi}`
-})
-
-const dividebtn = document.querySelector("#divide");
-dividebtn.addEventListener('click', () => {
-    divideNumbers()
-    display.innerHTML = `${split}`
-})
-
-// function to add
-function addNumbers() {
-    let num1 = parseInt(prompt("Please enter a number less than 100: "))
-    let num2 = parseInt(prompt("Please enter a number less than 100: "))
-    if (num1 & num2 && num1<100 & num2 <100) {
-        sum = num1 + num2
-        return alert(`${num1} added by ${num2} equals ${sum}`);
-    } else {
-        alert("Invalid choices!")
-        display.innerHTML = "error"
-    }
-}
-
-// function to subtract
-function minusNumbers() {
-    let num1 = parseInt(prompt("Please enter a number less than 100: "))
-    let num2 = parseInt(prompt("Please enter a number less than 100: "))
-    if (num1 & num2 && num1<100 & num2 <100) {
-        diff = num1 - num2
-        return alert(`${num1} subtracted by ${num2} equals ${diff}`);
-    } else {
-        alert("Invalid choices!")
-        display.innerHTML = "error"
-    }
-}
-
-// function to multiply
-function timesNumbers() {
-    let num1 = parseInt(prompt("Please enter a number less than 100: "))
-    let num2 = parseInt(prompt("Please enter a number less than 100: "))
-    if (num1 & num2 && num1<100 & num2 <100) {
-        multi = num1 * num2
-        return alert(`${num1} multiplied by ${num2} equals ${multi}`);
-    } else {
-        alert("Invalid choices!")
-        display.innerHTML = "error"
-    }
-}
-
-// function to divide
-function divideNumbers() {
-    let num1 = parseInt(prompt("Please enter a number less than 100: "))
-    let num2 = parseInt(prompt("Please enter a number less than 100: "))
-    if (num1 & num2 && num1<100 & num2 <100) {
-        split = num1 / num2
-        return alert(`${num1} divided by ${num2} equals ${split}`);
-    } else {
-        alert("Invalid choices!")
-        display.innerHTML = "error"
-    }
-}
-
-
-
-const equalbtn = document.querySelector("#equal")
+const equalbtn = document.querySelector("#equal");
 equalbtn.addEventListener('click', () => {
-    operate()
+    operateFunction()
     display.innerHTML = `${answer}`
-})
+    // allows the user to continue since now num1 is answer from previous problem
+    num1 = `${answer}`
+    num2 = ''
+});
 
 
-function operate() {
+function operateFunction() {
     // takes an operator and 2 numbers
-    if (firstNumber & secondNumber & operator) {
-        answer = `${firstNumber} ${operator} ${secondNumber}`
-        alert(`You chose ${answer}`)
-
+    if (num1 && num2 && operator) {
+        const operation = operatorsMap[operator];
+        if (operation) {
+            answer = operation(Number(num1), Number(num2));
+        } else {
+            alert("Invalid operator!")
+        }
+    } if (operator === '/' && num2 == 0) {
+        alert("Cannot divide by zero");
+        return;
     }
 }
-
-
-
-
-
